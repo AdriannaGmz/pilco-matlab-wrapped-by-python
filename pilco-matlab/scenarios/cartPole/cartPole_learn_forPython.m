@@ -15,8 +15,8 @@
 %% Code
 
 % 1. Initialization
-clear all, close all;
-settings_cp;                      % load scenario-specific settings
+close all;
+settings_cp_forPython;            % load scenario-specific settings, dagr
 basename = 'cartPole_';           % filename used for saving data
 
 % 2. Initial J random rollouts

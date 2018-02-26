@@ -1,4 +1,4 @@
-For those who need PILCO working in Python:
+PILCO in Python:
 * PILCO's author (M. Deisenroth) published the [Matlab Code](http://mlg.eng.cam.ac.uk/pilco/). 
 * Marek Rudnicki published a [python wrapper for Matlab programs] (https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper)
 
@@ -6,9 +6,8 @@ So here I combined both in order to have PILCO working in Python
 
 
 
-
 # Goal
-To get [PILCO matlab implementation}(http://mlg.eng.cam.ac.uk/pilco/) working in Python scripts enabled by the [matlab wrapper](https://github.com/mrkrd/matlab_wrapper).
+To get [PILCO matlab implementation](http://mlg.eng.cam.ac.uk/pilco/) working in Python scripts enabled by the [matlab wrapper](https://github.com/mrkrd/matlab_wrapper).
 
 
 # Requirements
@@ -26,6 +25,7 @@ To get [PILCO matlab implementation}(http://mlg.eng.cam.ac.uk/pilco/) working in
 
 Although I don't remember installing the wrapper by pip (I just downloaded the project from the github), they recommend it:
 ``pip install matlab_wrapper``
+
  
 # Execute it
 
@@ -37,18 +37,23 @@ We assume that the three directories are in the same path (same level)
 
 
 
-## Examples
+## Pilco from Matlab in Python: cartPole
+
+A sample of the simplest scenario. From directory _pilco-matlab/scenarios/cartPole_
+
+```python cartPole_learn_python.py```
+
+Besides of that, created tailored versions of m files: ``cartPole_learn.m`` and ``settings_cp.m``. So the above code execute the files ``cartPole_learn_forPython.m`` and ``settings_cp_forPython.m``.
+
+For the other scenarios, similar procedure
+
+
+## Some other simpler examples of only the matlab wrapper
 
 From Folder examples
 ```python simpleCommands.py```
 or
 ```python my_script_execPython.py```
-
-
-## Pilco from Matlab in Python
-From directory pilco-matlab/scenarios/cartPole
-
-```python pilco_cartPole_python.py```
 
 
 
