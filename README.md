@@ -1,3 +1,71 @@
+For those who need PILCO working in Python:
+* PILCO's author (M. Deisenroth) published the [Matlab Code](http://mlg.eng.cam.ac.uk/pilco/). 
+* Marek Rudnicki published a [python wrapper for Matlab programs] (https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper)
+
+So here I combined both in order to have PILCO working in Python
+
+
+
+
+# Goal
+To get [PILCO matlab implementation}(http://mlg.eng.cam.ac.uk/pilco/) working in Python scripts enabled by the [matlab wrapper](https://github.com/mrkrd/matlab_wrapper).
+
+
+# Requirements
+
+* Matlab's PILCO implementation (http://mlg.eng.cam.ac.uk/pilco/)
+* Matlab-python wrapper (https://github.com/mrkrd/matlab_wrapper)
+* Matlab-python wrapper reqs:
+	* Python 2.7
+	* MATLAB (various versions)
+	* Numpy
+	* csh  install by ``sudo apt-get install csh``
+
+
+# Installing
+
+Although I don't remember installing the wrapper by pip (I just downloaded the project from the github), they recommend it:
+``pip install matlab_wrapper``
+ 
+# Execute it
+
+We assume that the three directories are in the same path (same level)
+
+* pilco-matlab  		(Matlab code for PILCO)
+* matlab_wrapper 		(the wrapper)
+* examples			 	(self explaining)
+
+
+
+## Examples
+
+From Folder examples
+```python simpleCommands.py```
+or
+```python my_script_execPython.py```
+
+
+## Pilco from Matlab in Python
+From directory pilco-matlab/scenarios/cartPole
+
+```python pilco_cartPole_python.py```
+
+
+
+# Limitations
+
+* Command matlab.eval('my_script') does not understand directory navigating system (../ or /myfolder/), that's why the python Files are directly where the .m file is
+
+
+
+# References
+
+* PILCO in Matlab by Marc Deisenroth, 2010: http://mlg.eng.cam.ac.uk/pilco/
+* Matlab wrapper for python, March 2017: https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper
+
+
+# README from Original Github project (from Matlab implementation)
+
 PILCO Software Package V0.9 (2013-07-04)
 
 I. Introduction
@@ -30,7 +98,6 @@ which also includes a description of how to set up your own scenario (there are 
 IV. Contact
 If you find bugs, have questions, or want to give us feedback, please send an email to
 m.deisenroth@imperial.ac.uk
-
 
 
 V. References
