@@ -12,12 +12,17 @@
 % # Controlled learning (train dynamics model, policy learning, policy
 % application)
 
+%% dagr. Adapting learned robotics beh through policy adjustment
+% learn a policy for cartpole1  (source) 
+% apply it to cartpole2         (target, with different dynamics)
+% store behaviour of cartpole2 as training dataset for SL and adjust it 
+
 %% Code
 
 % 1. Initialization
-close all;
-settings_cp_forPython;            % load scenario-specific settings, dagr
-basename = 'cartPole_';           % filename used for saving data
+clear all, close all;
+settings_cp;                           % load scenario-specific settings
+basename = 'cartPole_diff_';           % filename used for saving data
 
 % 2. Initial J random rollouts
 for jj = 1:J
@@ -30,7 +35,7 @@ for jj = 1:J
   end
   
 end
-
+%%
 mu0Sim(odei,:) = mu0; S0Sim(odei,odei) = S0;
 mu0Sim = mu0Sim(dyno); S0Sim = S0Sim(dyno,dyno);
 

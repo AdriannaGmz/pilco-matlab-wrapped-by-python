@@ -31,3 +31,53 @@
 \BOOKMARK [2][-]{subsection.4.3.4}{Plant Structure}{section.4.3}% 31
 \BOOKMARK [2][-]{subsection.4.3.5}{Policy Structure}{section.4.3}% 32
 \BOOKMARK [2][-]{subsection.4.3.6}{Cost Function Structure}{section.4.3}% 33
+\BOOKMARK [2][-]{subsection.4.3.7}{GP Dynamics Model Structure}{section.4.3}% 34
+\BOOKMARK [2][-]{subsection.4.3.8}{Optimization Parameters \(Policy Learning\)}{section.4.3}% 35
+\BOOKMARK [2][-]{subsection.4.3.9}{Plotting Parameters}{section.4.3}% 36
+\BOOKMARK [2][-]{subsection.4.3.10}{Allocating Variables}{section.4.3}% 37
+\BOOKMARK [1][-]{section.4.4}{Cost Function}{chapter.4}% 38
+\BOOKMARK [2][-]{subsection.4.4.1}{Interface}{section.4.4}% 39
+\BOOKMARK [1][-]{section.4.5}{Visualization}{chapter.4}% 40
+\BOOKMARK [1][-]{section.4.6}{Main Function}{chapter.4}% 41
+\BOOKMARK [2][-]{subsection.4.6.1}{Screen Prints and Visualization}{section.4.6}% 42
+\BOOKMARK [0][-]{chapter.5}{Implemented Scenarios}{}% 43
+\BOOKMARK [1][-]{section.5.1}{Pendulum Swing-up}{chapter.5}% 44
+\BOOKMARK [1][-]{section.5.2}{Double Pendulum Swing-up with a Single Actuator \(Pendubot\)}{chapter.5}% 45
+\BOOKMARK [1][-]{section.5.3}{Double Pendulum Swing-up with Two Actuators}{chapter.5}% 46
+\BOOKMARK [1][-]{section.5.4}{Cart-Pole Swing-up}{chapter.5}% 47
+\BOOKMARK [1][-]{section.5.5}{Cart-Double Pendulum Swing-up}{chapter.5}% 48
+\BOOKMARK [1][-]{section.5.6}{Unicycling}{chapter.5}% 49
+\BOOKMARK [2][-]{subsection.5.6.1}{Method}{section.5.6}% 50
+\BOOKMARK [2][-]{subsection.5.6.2}{Wheel FBD}{section.5.6}% 51
+\BOOKMARK [2][-]{subsection.5.6.3}{Frame FBD}{section.5.6}% 52
+\BOOKMARK [2][-]{subsection.5.6.4}{Turntable FBD}{section.5.6}% 53
+\BOOKMARK [2][-]{subsection.5.6.5}{Eliminating Internal Forces}{section.5.6}% 54
+\BOOKMARK [0][-]{chapter.6}{Testing and Debugging}{}% 55
+\BOOKMARK [1][-]{section.6.1}{Gradient Checks for the Controller Function}{chapter.6}% 56
+\BOOKMARK [2][-]{subsection.6.1.1}{Interface}{section.6.1}% 57
+\BOOKMARK [1][-]{section.6.2}{Gradient Checks for the Cost Function}{chapter.6}% 58
+\BOOKMARK [2][-]{subsection.6.2.1}{Interface}{section.6.2}% 59
+\BOOKMARK [1][-]{section.6.3}{Gradient Checks for the GP Prediction Function}{chapter.6}% 60
+\BOOKMARK [2][-]{subsection.6.3.1}{Interface}{section.6.3}% 61
+\BOOKMARK [1][-]{section.6.4}{Gradient Checks for the State Propagation Function}{chapter.6}% 62
+\BOOKMARK [2][-]{subsection.6.4.1}{Interface}{section.6.4}% 63
+\BOOKMARK [1][-]{section.6.5}{Gradient Checks for Policy Evaluation}{chapter.6}% 64
+\BOOKMARK [2][-]{subsection.6.5.1}{Interface}{section.6.5}% 65
+\BOOKMARK [0][-]{chapter.7}{Code and Auto-generated Documentation of the Main Functions}{}% 66
+\BOOKMARK [1][-]{section.7.1}{Base Directory}{chapter.7}% 67
+\BOOKMARK [2][-]{subsection.7.1.1}{applyController.m}{section.7.1}% 68
+\BOOKMARK [2][-]{subsection.7.1.2}{propagate.m}{section.7.1}% 69
+\BOOKMARK [2][-]{subsection.7.1.3}{rollout.m}{section.7.1}% 70
+\BOOKMARK [2][-]{subsection.7.1.4}{trainDynModel.m}{section.7.1}% 71
+\BOOKMARK [2][-]{subsection.7.1.5}{value.m}{section.7.1}% 72
+\BOOKMARK [1][-]{section.7.2}{Control Directory}{chapter.7}% 73
+\BOOKMARK [2][-]{subsection.7.2.1}{concat.m}{section.7.2}% 74
+\BOOKMARK [2][-]{subsection.7.2.2}{congp.m}{section.7.2}% 75
+\BOOKMARK [2][-]{subsection.7.2.3}{conlin.m}{section.7.2}% 76
+\BOOKMARK [1][-]{section.7.3}{GP Directory}{chapter.7}% 77
+\BOOKMARK [2][-]{subsection.7.3.1}{train.m}{section.7.3}% 78
+\BOOKMARK [2][-]{subsection.7.3.2}{hypCurb.m}{section.7.3}% 79
+\BOOKMARK [2][-]{subsection.7.3.3}{fitc.m}{section.7.3}% 80
+\BOOKMARK [2][-]{subsection.7.3.4}{gp0.m}{section.7.3}% 81
+\BOOKMARK [2][-]{subsection.7.3.5}{gp1.m}{section.7.3}% 82
+\BOOKMARK [2][-]{subsection.7.3.6}{gp2.m}{section.7.3}% 83
