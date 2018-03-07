@@ -87,7 +87,8 @@ maxH = ceil(10.0/dt);         % max pred horizon
 s = [0.02 0.02 0.02 0.02 0.02 0.1 0.1 0.02 0.02 0.02 0.02 0.02].^2;
 S0 = diag(s);                 % initial state variance, 95% is +/- 11.4 degrees
 mu0 = zeros(length(odei),1);  % initial state mean
-N = 40;                       % number controller optimizations
+%N = 40;                       % number controller optimizations
+N = 4;                       % number controller optimizations
 J = 10;                       % initial J trajectories of length H
 K = 1;                        % number of initial states for which we optimize
 

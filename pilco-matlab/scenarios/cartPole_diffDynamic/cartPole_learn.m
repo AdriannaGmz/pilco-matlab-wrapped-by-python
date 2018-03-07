@@ -21,6 +21,7 @@
 
 % 1. Initialization
 clear all, close all;
+N = 2;                                 % number controller optimizations
 settings_cp;                           % load scenario-specific settings
 basename = 'cartPole_diff_';           % filename used for saving data
 
@@ -35,7 +36,7 @@ for jj = 1:J
   end
   
 end
-%%
+
 mu0Sim(odei,:) = mu0; S0Sim(odei,odei) = S0;
 mu0Sim = mu0Sim(dyno); S0Sim = S0Sim(dyno,dyno);
 
@@ -50,3 +51,8 @@ for j = 1:N
     draw_rollout_cp;
   end
 end
+
+% Saving controller outputs per timestep to a file
+fileID = fopen('u.txt','w');
+fprintf(fileID,'%12.8f \n',x(:,7));
+fclose(fileID);

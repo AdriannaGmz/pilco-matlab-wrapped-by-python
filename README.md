@@ -1,6 +1,6 @@
-PILCO in Python:
-* PILCO's author (M. Deisenroth) published the [Matlab Code](http://mlg.eng.cam.ac.uk/pilco/). 
-* Marek Rudnicki published a [python wrapper for Matlab programs] (https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper)
+# PILCO in Python
+* PILCO's author (M. Deisenroth) published the [Matlab Code](http://mlg.eng.cam.ac.uk/pilco/).
+* Marek Rudnicki published a [python wrapper for Matlab programs](https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper)
 
 So here I combined both in order to have PILCO working in Python
 
@@ -12,8 +12,8 @@ To get [PILCO matlab implementation](http://mlg.eng.cam.ac.uk/pilco/) working in
 
 # Requirements
 
-* Matlab's PILCO implementation (http://mlg.eng.cam.ac.uk/pilco/)
-* Matlab-python wrapper (https://github.com/mrkrd/matlab_wrapper)
+* [Matlab's PILCO implementation](http://mlg.eng.cam.ac.uk/pilco/)
+* [Matlab-python wrapper](https://github.com/mrkrd/matlab_wrapper)
 * Matlab-python wrapper reqs:
 	* Python 2.7
 	* MATLAB (various versions)
@@ -24,9 +24,11 @@ To get [PILCO matlab implementation](http://mlg.eng.cam.ac.uk/pilco/) working in
 # Installing
 
 Although I don't remember installing the wrapper by pip (I just downloaded the project from the github), they recommend it:
-``pip install matlab_wrapper``
+```sh
+pip install matlab_wrapper
+```
 
- 
+
 # Execute it
 
 We assume that the three directories are in the same path (same level)
@@ -39,21 +41,25 @@ We assume that the three directories are in the same path (same level)
 
 ## Pilco from Matlab in Python: cartPole
 
-A sample of the simplest scenario. From directory _pilco-matlab/scenarios/cartPole_
+From  _pilco-matlab/scenarios/cartPole-diffDynamic_
 
-```python cartPole_learn_python.py```
+execute
+```sh
+python cartPole_learn_python.py
+```
 
-Besides of that, created tailored versions of m files: ``cartPole_learn.m`` and ``settings_cp.m``. So the above code execute the files ``cartPole_learn_forPython.m`` and ``settings_cp_forPython.m``.
-
-For the other scenarios, similar procedure
 
 
-## Some other simpler examples of only the matlab wrapper
+## other examples of matlab wrapper
 
-From Folder examples
-```python simpleCommands.py```
+In _examples_ directory, execute
+```sh
+python simpleCommands.py
+```
 or
-```python my_script_execPython.py```
+```sh
+python my_script_execPython.py
+```
 
 
 
@@ -65,11 +71,11 @@ or
 
 # References
 
-* PILCO in Matlab by Marc Deisenroth, 2010: http://mlg.eng.cam.ac.uk/pilco/
-* Matlab wrapper for python, March 2017: https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper
+* [PILCO in Matlab by Marc Deisenroth, 2010](http://mlg.eng.cam.ac.uk/pilco/)
+* [Matlab wrapper for python, March 2017](https://zenodo.org/badge/latestdoi/24233/mrkrd/matlab_wrapper)
 
-
-# README from Original Github project (from Matlab implementation)
+---
+# README from Original PILCO Matlab Github
 
 PILCO Software Package V0.9 (2013-07-04)
 
@@ -82,7 +88,7 @@ II. Quick Start
 We have already implemented some scenarios that can be found in
 <PILCO-ROOT>/scenarios .
 
-If you want to get started immediately, go to 
+If you want to get started immediately, go to
 <PILCO-ROOT>/scenarios/cartPole
 
 and execute
@@ -96,7 +102,7 @@ A detailed documentation can be found in
 
 <PILCO-ROOT>/doc/doc.pdf
 
-which also includes a description of how to set up your own scenario (there are only a few files that are scenario specific). 
+which also includes a description of how to set up your own scenario (there are only a few files that are scenario specific).
 
 
 
@@ -115,4 +121,3 @@ Marc Deisenroth
 Andrew McHutchon
 Joe Hall
 Carl Edward Rasmussen
-

@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """ 
-Evaluates cartPole_learn.m file
-Modified 		cartPole_learn 				and settings_cp
-to 			cartPole_learn_forPython 	and settings_cp_forPython
+Evaluates 
+* settings_cp_forPython.m
+* rollout.m
+* trainDynModel;")#   % train (GP) dynamics model
+* learnPolicy;")#     % learn policy
+* applyController;")# % apply controller to system
 
-for specific N overriding and requirements
+displays the cart pole
+
 """ 
 
 from __future__ import division, print_function, absolute_import
@@ -24,7 +28,7 @@ def visualize_traj(matlab):
 
 def main():
 
-	N = 2.0   					#number controller optimizations 
+	N = 1.0   					#number controller optimizations 
 
 	matlab = matlab_wrapper.MatlabSession()
 	matlab.eval('clear all') 
@@ -60,7 +64,7 @@ def main():
 
 	# matlab.workspace.x.ndim   # gives the nr of dims bc they're numpy arrays
 	# matlab.workspace.x.shape   # gives the size bc they're numpy arrays
-	# matlab.workspace.x[0,:]  # access row nr 0,  40 x 7 [H x nX+nU]
+	# matlab.workspace.x[0,:]  # PYTHON HIERARCHY! row nr 0,  40 x 7 [H x nX+nU]
 
 	# % 3. Controlled learning (N iterations)
 	for j in range(1,matlab.workspace.N.astype(int)+1): # for j = 1:N
@@ -71,13 +75,17 @@ def main():
 		print("controlled trial # %d" % j)
 		visualize_traj(matlab)
 
+	# % Saving controller outputs per timestep to a file
+	f1=open('u.txt', 'w+')
+	for u_item in matlab.workspace.x[:,6]:  #all rows, column 7 in MAtlab, 6 in python
+		f1.write("%s\n" % u_item)
+	f1.close()
 
 
 
 
 
 
-	# matlab.eval('cartPole_learn_forPython') # here happens the magic
 
 	matN = matlab.workspace.N 
 	print("we verify N here:", matN)
@@ -86,11 +94,6 @@ def main():
     # matlab.eval('cartPole_learn') 
 	# s = matlab.workspace.sin([0.1, 0.2, 0.3])
 	# sorted,idx = matlab.workspace.sort([3,1,2], nout=2)
-	# matlab.workspace.a = 12.3
-	# b = matlab.workspace.b
-	# matlab.put('x', 2.)
-    # y = matlab.get('y')
-    # print("We are executing:", y)
 
 	print("Done!")
 	# when Matlab finishes the code or executions, 
