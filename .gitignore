@@ -103,6 +103,12 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+
+
+
+
+
+
 #DAGR. Add gitignore for matlab files
 # Windows default autosave extension
 *.asv
@@ -132,3 +138,11 @@ octave-workspace
 
 
 
+#DAGR. from matlab wrapper
+matlab_wrapper/*.html
+matlab_wrapper/*.pyc
+matlab_wrapper/*.egg-info
+matlab_wrapper/dist
+matlab_wrapper/build
+matlab_wrapper/docs/_build
+matlab_wrapper/*.orig
