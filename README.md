@@ -19,6 +19,7 @@ To get [PILCO matlab implementation](http://mlg.eng.cam.ac.uk/pilco/) working in
 	* MATLAB (various versions)
 	* Numpy
 	* csh  install by ``sudo apt-get install csh``
+	* GL/glew.h``sudo apt-get install libglew-dev``
 
 
 # Installing
