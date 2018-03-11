@@ -28,6 +28,10 @@ Although I don't remember installing the wrapper by pip (I just downloaded the p
 ```sh
 pip install matlab_wrapper
 ```
+Or how I preferred, navigate to matlab_wrapper and since it works under Python 2.7:
+```sh
+sudo python setup.py install
+```
 
 
 # Execute it
@@ -62,6 +66,25 @@ or
 python my_script_execPython.py
 ```
 
+
+# Adding OpenAI gym to the party
+
+Don't forget to install the Control module for the cart pole environment and the Mujoco Module for the mujoco environment if we want to use them with the OpenAI interface. 
+
+Download openAI gym and install it with python 2 or 3 (select either pip or pip3) the [environment we want to use](https://gym.openai.com/envs/#mujoco) . In my case I installed with python2 and 3 the Control and Mujoco env (Mujoco not tested):
+```sh
+git clone https://github.com/openai/gym
+cd gym
+pip install -e .
+
+# and with this, install specific environments: Algorithms, Atari, Box2D, Classic control, MuJoCo, Robotics  , Toy text  ()
+sudo pip install -e '.[classic_control]'
+sudo pip3 install -e '.[classic_control]'
+#sudo pip install -e '.[mujoco]'
+#sudo pip3 install -e '.[mujoco]'
+#sudo pip install -e '.[robotics]'
+#sudo pip3 install -e '.[robotics]'
+```
 
 
 # Limitations
