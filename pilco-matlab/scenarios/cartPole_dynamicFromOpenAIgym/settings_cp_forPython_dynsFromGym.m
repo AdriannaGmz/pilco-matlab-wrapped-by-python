@@ -18,13 +18,15 @@
 % # Some array initializations
 
 % DAGR. Modified settings for my own implementation,
-% instead of taking N from here, override from python
+%     instead of taking N from here, override from python
+%     and instead of using model from Matlab, use model from OpenAI
+
 
 
 %% Code
-
+%   initialization of random seeds. used for policies generation
 rand('seed',1); randn('seed',1); format short; format compact; 
-% include some paths
+%   include some paths
 try
   rd = '../../';
   addpath([rd 'base'],[rd 'util'],[rd 'gp'],[rd 'control'],[rd 'loss']);
@@ -74,19 +76,22 @@ J = 1;                             % initial J trajectories of length H
 K = 1;                             % no. of initial states for which we optimize
 nc = 10;                          % number of controller basis functions
 
-% 3. Plant structure
-plant.dynamics = @dynamics_cp;                    % dynamics ode function
-plant.noise = diag(ones(1,4)*0.01.^2);            % measurement noise
-plant.dt = dt;
-plant.ctrl = @zoh;                                % controler is zero order hold
-plant.odei = odei;
-plant.augi = augi;
-plant.angi = angi;
-plant.poli = poli;
-plant.dyno = dyno;
-plant.dyni = dyni;
-plant.difi = difi;
-plant.prop = @propagated;
+% % 3. Plant structure
+% plant.dynamics = @dynamics_cp;                    % dynamics ode function
+% plant.noise = diag(ones(1,4)*0.01.^2);            % measurement noise
+% plant.dt = dt;
+% plant.ctrl = @zoh;                                % controler is zero order hold
+% plant.odei = odei;
+% plant.augi = augi;
+% plant.angi = angi;
+% plant.poli = poli;
+% plant.dyno = dyno;
+% plant.dyni = dyni;
+% plant.difi = difi;
+% plant.prop = @propagated;
+% 3. Plant structure, OpenAi gym
+
+
 
 % 4. Policy structure
 policy.fcn = @(policy,m,s)conCat(@congp,@gSat,policy,m,s);% controller 

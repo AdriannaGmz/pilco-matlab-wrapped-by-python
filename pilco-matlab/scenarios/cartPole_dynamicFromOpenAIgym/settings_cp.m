@@ -26,7 +26,7 @@ try
   addpath([rd 'base'],[rd 'util'],[rd 'gp'],[rd 'control'],[rd 'loss']);
 catch
 end
-
+%%
 
 % 1. Define state and important indices
 
@@ -57,7 +57,7 @@ angi = [4];                  % angle variables
 dyni = [1 2 3 5 6];          % variables that serve as inputs to the dynamics GP
 poli = [1 2 3 5 6];          % variables that serve as inputs to the policy
 difi = [1 2 3 4];            % variables that are learned via differences
-
+%%
 
 % 2. Set up the scenario
 dt = 0.10;                         % [s] sampling time
@@ -69,7 +69,7 @@ S0 = diag([0.1 0.1 0.1 0.1].^2);   % initial state covariance
 J = 1;                             % initial J trajectories of length H
 K = 1;                             % no. of initial states for which we optimize
 nc = 10;                          % number of controller basis functions
-
+%%
 % 3. Plant structure
 plant.dynamics = @dynamics_cp;                    % dynamics ode function
 plant.noise = diag(ones(1,4)*0.01.^2);            % measurement noise

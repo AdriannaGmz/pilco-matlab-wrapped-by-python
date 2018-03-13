@@ -24,7 +24,7 @@ clear all, close all;
 N = 2;                                 % number controller optimizations
 settings_cp;                           % load scenario-specific settings
 basename = 'cartPole_diff_';           % filename used for saving data
-
+%%
 % 2. Initial J random rollouts
 for jj = 1:J
   [xx, yy, realCost{jj}, latent{jj}] = ...
