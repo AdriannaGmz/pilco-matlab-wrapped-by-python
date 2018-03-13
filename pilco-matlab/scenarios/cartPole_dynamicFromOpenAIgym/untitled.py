@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 # from sett_cp import *
 import sett_cp as scp  		#python version of settings_cp.m
 import roll_cp as roll 		#python version of rollout.m
-# import applyController_cp as appControl
+import applyController_cp as appControl
 
 import matlab_wrapper
 import gym
@@ -44,7 +44,6 @@ matlab.workspace.N = N 	# Override Nr controller optimizations
 # ===================================
 # settings_cp   # As follows:
 scp.init(matlab)
-scp.init(matlab)
 scp.def_state_indices(matlab)
 scp.def_scenario(matlab)
 scp.def_plant_st(matlab)
@@ -63,7 +62,8 @@ matlab.workspace.basename= 'cartPole_py_'
 jj=1
 matlab.workspace.jj=jj
 
-# [xx, yy, realCost{jj}, latent{jj}] = rollout(gaussian(mu0, S0), struct('maxU',policy.maxU), H, plant, cost)
+# ===================================
+# [xx, yy, realCost{jj}, latent{jj}] = rollout(gaussian(mu0, S0), struct('maxU',policy.maxU), H, plant, cost) # As follows:
 matlab.eval("start_py 	= gaussian(mu0, S0)") 				#BEGINNING OF WORKAROUND for rollout function
 matlab.eval("policy_py 	= struct('maxU',policy.maxU)")
 matlab.eval("H_py 		= H")
@@ -78,6 +78,7 @@ matlab.eval("clear x_py")
 matlab.eval("clear y_py")
 matlab.eval("clear L_py")
 matlab.eval("clear latent_py") 								#END OF WORKAROUND 
+# ===================================
 
 matlab.eval("x = [x; xx]; y = [y; yy];")       # augment training sets for dynamics model
 visualize_traj(matlab)
@@ -87,18 +88,9 @@ matlab.eval("mu0Sim(odei,:) = mu0; S0Sim(odei,odei) = S0;")
 matlab.eval("mu0Sim = mu0Sim(dyno); S0Sim = S0Sim(dyno,dyno);")
 
 
-# ######------------ 3. Controller learning
-# matlab.workspace.j=1
-# matlab.eval("trainDynModel;")#   # train (GP) dynamics model
-# matlab.eval("learnPolicy;")#     # learn policy
-# # ===================================
-# # matlab.eval("applyController;")# # apply controller to system. As follows:
-# # appControl.init(matlab)
-# # ===================================
-# print("controlled trial # %d" %j)
-# visualize_traj(matlab)
-
-
-# # matlab.workspace.x.ndim   # gives the nr of dims bc they're numpy arrays
-# # matlab.workspace.x.shape   # gives the size bc they're numpy arrays
-# # matlab.workspace.x[0,:]  # PYTHON HIERARCHY! row nr 0,  40 x 7 [H x nX+nU]
+######------------ 3. Controller learning
+matlab.workspace.j=1
+matlab.eval("trainDynModel;")#   # train (GP) dynamics model
+matlab.eval("learnPolicy;")#     # learn policy
+appControl.apply(matlab)		# matlab.eval("applyController;")	# apply controller to system
+input()
