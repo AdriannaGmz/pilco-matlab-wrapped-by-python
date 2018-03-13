@@ -20,29 +20,20 @@ def visualize_cost(matlab):
       matlab.eval("hold on")
       matlab.eval("plot(1:length(realCost{J+j}),realCost{J+j},'r');")  
       matlab.eval("drawnow")
-  # if plotting.verbosity > 0
-  #   if ~ishandle(3); figure(3); else set(0,'CurrentFigure',3); end
-  #   hold on; plot(1:length(realCost{J+j}),realCost{J+j},'r'); drawnow;
-  # end
 
 
 def apply(matlab):
   # 1. Generate trajectory rollout given the current policy
-  # if isfield(plant,'constraint'), HH = maxH; else HH = H; end
   matlab.eval("if isfield(plant,'constraint'), HH = maxH; else HH = H; end")
-              # if matlab.eval("isfield(plant,'constraint')"):
-              #   matlab.eval("HH = maxH;")
-              # else:
-              #   matlab.eval("HH = H;")
  
   # =================================== ROLLOUT
   # [xx, yy, realCost{j+J}, latent{j}] = rollout(gaussian(mu0, S0), policy, HH, plant, cost);   # As follows:
-  matlab.eval("start_py   = gaussian(mu0, S0)")         #BEGINNING OF WORKAROUND for rollout function
+  matlab.eval("start_py   = gaussian(mu0, S0)")    #BEGINNING OF WORKAROUND for rollout function
   matlab.eval("policy_py  = policy")
   matlab.eval("H_py       = HH")
   matlab.eval("plant_py   = plant")
   matlab.eval("cost_py    = cost")
-  roll.rollout(matlab)                      # FUNCTION ====
+  roll.rollout(matlab)                              # FUNCTION 
   matlab.workspace.xx         = matlab.workspace.x_py
   matlab.workspace.yy         = matlab.workspace.y_py
   matlab.eval("realCost{j+J}  = L_py;")
@@ -50,15 +41,10 @@ def apply(matlab):
   matlab.eval("clear x_py")     
   matlab.eval("clear y_py")
   matlab.eval("clear L_py")
-  matlab.eval("clear latent_py")                #END OF WORKAROUND 
+  matlab.eval("clear latent_py")                    #END OF WORKAROUND 
   # ===================================
   print(matlab.workspace.xx)          # disp(xx); # display states of observed trajectory
   matlab.eval("x = [x; xx]; y = [y; yy];")        # augment training sets 
-  visualize_cost(matlab)
-          # if plotting.verbosity > 0
-          #   if ~ishandle(3); figure(3); else set(0,'CurrentFigure',3); end
-          #   hold on; plot(1:length(realCost{J+j}),realCost{J+j},'r'); drawnow;
-          # end
 
   # # 2. Make many rollouts to test the controller quality
   if matlab.workspace.plotting.verbosity>1 : 
@@ -67,17 +53,17 @@ def apply(matlab):
       matlab.workspace.i = i
       # =================================== ROLLOUT
       # [~,~,~,lat{i}] = rollout(gaussian(mu0, S0), policy, HH, plant, cost);   # As follows:
-      matlab.eval("start_py   = gaussian(mu0, S0)")         #BEGINNING OF WORKAROUND for rollout function
+      matlab.eval("start_py   = gaussian(mu0, S0)")   #BEGINNING OF WORKAROUND for rollout function
       matlab.eval("policy_py  = policy")
       matlab.eval("H_py       = HH")
       matlab.eval("plant_py   = plant")
       matlab.eval("cost_py    = cost")
-      roll.rollout(matlab)                      # FUNCTION ====
+      roll.rollout(matlab)                            #FUNCTION 
       matlab.eval("lat{i}      = latent_py;")
       matlab.eval("clear x_py")     
       matlab.eval("clear y_py")
       matlab.eval("clear L_py")
-      matlab.eval("clear latent_py")                #END OF WORKAROUND 
+      matlab.eval("clear latent_py")                  #END OF WORKAROUND 
       # ===================================
     if ~matlab.workspace.ishandle(4):
       matlab.eval('figure(4)')

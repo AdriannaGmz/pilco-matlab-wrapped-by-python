@@ -1,9 +1,7 @@
 from __future__ import division, print_function, absolute_import
 from __future__ import unicode_literals
-# import os  
-# from sett_cp import *
-import sett_cp as scp  		#python version of settings_cp.m
-import roll_cp as roll 		#python version of rollout.m
+import sett_cp as scp  		
+import roll_cp as roll 		
 import applyController_cp as appControl
 
 import matlab_wrapper
@@ -41,8 +39,7 @@ matlab.workspace.N = N 	# Override Nr controller optimizations
 # print("Overriding Nr controller optimizations from here:", matN)
 # os.system("settings_cp.py")   	# :( CREATES A SUBSHELL and loses all memory. BETTER WITH FUNCTIONS! 
 
-# ===================================
-# settings_cp   # As follows:
+# ===================================   # settings_cp   # As follows:
 scp.init(matlab)
 scp.def_state_indices(matlab)
 scp.def_scenario(matlab)
@@ -87,10 +84,36 @@ visualize_traj(matlab)
 matlab.eval("mu0Sim(odei,:) = mu0; S0Sim(odei,odei) = S0;")
 matlab.eval("mu0Sim = mu0Sim(dyno); S0Sim = S0Sim(dyno,dyno);")
 
+	# matlab.workspace.x.ndim   # gives the nr of dims bc they're numpy arrays
+	# matlab.workspace.x.shape   # gives the size bc they're numpy arrays
+	# matlab.workspace.x[0,:]  # PYTHON HIERARCHY! row nr 0,  40 x 7 [H x nX+nU]
+
+
 
 ######------------ 3. Controller learning
-matlab.workspace.j=1
+# for j = 1:N
+j=1
+matlab.workspace.j=j
 matlab.eval("trainDynModel;")#   # train (GP) dynamics model
 matlab.eval("learnPolicy;")#     # learn policy
 appControl.apply(matlab)		# matlab.eval("applyController;")	# apply controller to system
+
+
+print("controlled trial # %d" %j)
+visualize_traj(matlab)
+
+
+
+# Saving controller outputs per timestep to a file
+f1=open('u.txt', 'w+')
+for u_item in matlab.workspace.x[:,6]:  #all rows, column 7 in Matlab, 6 in python
+	f1.write("%s\n" %u_item)
+f1.close()
+
+
+
+# s = matlab.workspace.sin([0.1, 0.2, 0.3])
+# sorted,idx = matlab.workspace.sort([3,1,2], nout=2)
+
+print("Done!")
 input()
