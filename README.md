@@ -13,24 +13,28 @@ To get [PILCO matlab implementation](http://mlg.eng.cam.ac.uk/pilco/) working in
 # Requirements
 
 * [Matlab's PILCO implementation](http://mlg.eng.cam.ac.uk/pilco/)
-* [Matlab-python wrapper](https://github.com/mrkrd/matlab_wrapper)
-* Matlab-python wrapper reqs:
-	* Python 2.7
+* [Matlab-python wrapper](https://github.com/mrkrd/matlab_wrapper) and reqs:
+	* Python 2.7 (or apparently python 3.5.2 too)
 	* MATLAB (various versions)
 	* Numpy
 	* csh  install by ``sudo apt-get install csh``
 	* GL/glew.h``sudo apt-get install libglew-dev``
 
 
+
 # Installing
 
-Although I don't remember installing the wrapper by pip (I just downloaded the project from the github), they recommend it:
+* Although I don't remember installing the wrapper by pip (I just downloaded the project from the github), they recommend it:
 ```sh
 pip install matlab_wrapper
 ```
-Or how I preferred, navigate to matlab_wrapper and since it works under Python 2.7:
+* Or how I preferred, navigate to matlab_wrapper and since it works under Python 2.7:
 ```sh
 sudo python setup.py install
+```
+* Installation in python3:
+```sh
+pip3 install matlab_wrapper
 ```
 
 
@@ -40,7 +44,7 @@ We assume that the three directories are in the same path (same level)
 
 * pilco-matlab  		(Matlab code for PILCO)
 * matlab_wrapper 		(the wrapper)
-* examples			 	(self explaining)
+* examples			 	  (of the matlab wrapper)
 
 
 
@@ -69,7 +73,7 @@ python my_script_execPython.py
 
 # Adding OpenAI gym to the party
 
-Don't forget to install the Control module for the cart pole environment and the Mujoco Module for the mujoco environment if we want to use them with the OpenAI interface. 
+Don't forget to install the Control module for the cart pole environment and the Mujoco Module for the mujoco environment if we want to use them with the OpenAI interface.
 
 Download openAI gym and install it with python 2 or 3 (select either pip or pip3) the [environment we want to use](https://gym.openai.com/envs/#mujoco) . In my case I installed with python2 and 3 the Control and Mujoco env (Mujoco not tested):
 ```sh
@@ -85,6 +89,16 @@ sudo pip3 install -e '.[classic_control]'
 #sudo pip install -e '.[robotics]'
 #sudo pip3 install -e '.[robotics]'
 ```
+
+# Adding Mujoco to the party
+To bring Mujoco to python, we use *mujoco_py*, which runs under python 3.5. This is documented [here](https://github.com/AdriannaGmz/mujoco_kuka). Is already installed, but if is not recognized, it might need to reconfigure:
+
+```sh
+cd ~/.mujoco/mujoco-py
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
+sudo python3 setup.py install
+```
+
 
 
 # Limitations
