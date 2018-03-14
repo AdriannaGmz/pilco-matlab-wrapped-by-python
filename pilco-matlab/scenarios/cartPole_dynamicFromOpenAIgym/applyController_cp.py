@@ -1,5 +1,5 @@
-# python translation of  applyController.m
-# to override the matlab dynamic cart pole solver and use the one from OpenAI gym
+# Python translation of applyController.m
+# Overrides the matlab cart pole dynamic solver and uses the model from OpenAI gym
 #################################################################
 ## applyController.m
 # *Summary:* Script to apply the learned controller to a (simulated) system
@@ -13,19 +13,21 @@ import roll_cp as roll    #python version of rollout.m
 
 def visualize_cost(matlab):
   if matlab.workspace.plotting.verbosity>0 : 
-      if ~matlab.workspace.ishandle(3):
-        matlab.eval('figure(3)')
-      else:
-        matlab.eval("set(0,'CurrentFigure',3)")
-      matlab.eval("hold on")
-      matlab.eval("plot(1:length(realCost{J+j}),realCost{J+j},'r');")  
-      matlab.eval("drawnow")
+    if ~matlab.workspace.ishandle(3):
+      matlab.eval('figure(3)')
+    else:
+      matlab.eval("set(0,'CurrentFigure',3)")
+    matlab.eval("hold on")
+    matlab.eval("plot(1:length(realCost{J+j}),realCost{J+j},'r');")  
+    matlab.eval("drawnow")
 
 
-def apply(matlab):
+def apply(matlab,env):
   # 1. Generate trajectory rollout given the current policy
   matlab.eval("if isfield(plant,'constraint'), HH = maxH; else HH = H; end")
- 
+  
+  matlab.workspace.mu0 = roll.fit_stX_for_matlab(matlab,ob) # initialize not with [0,0,0,0]' but with initial state
+
   # =================================== ROLLOUT
   # [xx, yy, realCost{j+J}, latent{j}] = rollout(gaussian(mu0, S0), policy, HH, plant, cost);   # As follows:
   matlab.eval("start_py   = gaussian(mu0, S0)")    #BEGINNING OF WORKAROUND for rollout function

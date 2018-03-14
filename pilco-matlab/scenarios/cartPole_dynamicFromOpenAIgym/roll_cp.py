@@ -1,5 +1,5 @@
-# python translation of  rollout.m
-# to override the matlab dynamic cart pole sovler and use the one from OpenAI gym
+# Python translation of rollout.m
+# Overrides the matlab cart pole dynamic solver and uses the model from OpenAI gym
 #################################################################
 ## rollout.m
 # *Summary:* Generate a state trajectory using an ODE solver (and any additional 
@@ -43,9 +43,45 @@
 # # Apply random noise to the successor state
 # # Compute cost (optional)
 # # Repeat until end of horizon
+import numpy as np
+
+def fit_stX_for_matlab(matlab,ob): #x          matrix of observed states                           [H   x nX+nU]
+  # OpenAI vector state is:     x, x_dot, theta,  theta_dot         % is an array
+  # Matlab vector state needs:  x, x_dot, dtheta, theta,  sin(theta), cos(theta)
+  #  1  x          cart position
+  #  2  v          cart velocity
+  #  3  dtheta     angular velocity
+  #  4  theta      angle of the pendulum
+  #  5  sin(theta) complex representation ...
+  #  6  cos(theta) of theta
+  #***  7  u          force applied to cart
+  # stheta = math.sin(theta)
+  # ctheta = math.cos(theta)
+  # ob_for_matlab = np.array([ob[0],ob[1],ob[3],ob[2], math.sin(ob[2]), math.cos(ob[2])])
+  # return np.array([ob[0],ob[1],ob[3],ob[2], math.sin(ob[2]), math.cos(ob[2])])
+  return np.array([ob[0],ob[1],ob[3],ob[2]])
+
+# def fit_stY_for_matlab(matlab,ob): #y          matrix of corresponding observed successor states   [H   x   nX ]
+#   # OpenAI vector state is:     x, x_dot, theta,  theta_dot         % is an array
+#   # Matlab vector state needs:  x, x_dot, dtheta, theta
+#   return np.array([ob[0],ob[1],ob[3],ob[2]])
+
+def map_u_discrete(matlab):
+  # print(matlab.workspace.u.shape)
+  u = matlab.workspace.u.copy() 
+  if u[matlab.workspace.i-1] < 0:  # i-1 in python corresponds to i in matlab
+    u[[matlab.workspace.i-1]] = 0
+    # print("negative")
+  else:
+    u[[matlab.workspace.i-1]] = 1
+    # print("positive")
+  # print(u.shape)
+  matlab.workspace.u = u.copy()
+  # print(matlab.workspace.u.shape)
 
 
-def rollout(matlab):       # function [x y L latent] = rollout(start, policy, H, plant, cost)
+
+def rollout(matlab,env):       # function [x y L latent] = rollout(start, policy, H, plant, cost)
   # WORKAROUND:    USE NAMES  _py for the incoming / outgoing arguments
   # matlab.workspace.start_py 
   # matlab.workspace.policy_py 
@@ -79,15 +115,32 @@ def rollout(matlab):       # function [x y L latent] = rollout(start, policy, H,
     matlab.eval("x_py(i,end-2*nA+1:end) = s(end-2*nA+1:end);")
 
     # 1. Apply policy ... or random actions --------------------------------------
-    matlab.eval("if isfield(policy_py, 'fcn'), u(i,:) = policy_py.fcn(policy_py,s(poli),zeros(length(poli))); else u(i,:) = policy_py.maxU.*(2*rand(1,nU)-1); end")
-    matlab.eval("latent_py(i,:) = [state u(i,:)];")                                  # latent state
+    if matlab.eval("isfield(policy_py, 'fcn')"):      # apply policy
+      matlab.eval("u(i,:) = policy_py.fcn(policy_py,s(poli),zeros(length(poli))); ")
+    else:                                             # apply random action
+      matlab.eval("u(i,:) = policy_py.maxU.*(2*rand(1,nU)-1); ")
+    # print(matlab.workspace.u[matlab.workspace.i-1])    
+    map_u_discrete(matlab)                                            # maps from [-1,...,+1] to (0,1)
+    # matlab.eval("latent_py(i,:) = [state u(i,:)];")                                  # latent state
+    matlab.eval("u = u'; latent_py(i,:) = [state u(i,:)];")                            # openai. latent state
+
+    # 1a. step openai env with the requested action---------------------------------    
+    action_env = matlab.workspace.u[i-1].astype(int)
+    print("Action %d for timestep i=%d" %(action_env,i))
+    state, reward, done, _ = env.step(action_env) 
+    env.render()
+    if done: 
+      break
+      print("\t\t Episode over!!! ")
+
 
     # 2. Simulate dynamics -------------------------------------------------------
-    matlab.eval("next(odei) = simulate(state(odei), u(i,:), plant_py);")
-    matlab.eval("next(subi) = plant_py.subplant(state, u(i,:));")
+    # matlab.eval("next(odei) = simulate(state(odei), u(i,:), plant_py);")
+    # matlab.eval("next(subi) = plant_py.subplant(state, u(i,:));")
+    matlab.workspace.next_state = fit_stX_for_matlab(matlab,state)               # openai. dyns
+    matlab.eval("next(odei) = next_state;")
 
     # 3. Stop rollout if constraints violated ------------------------------------
-    # matlab.eval("if (isfield(plant_py,'constraint') && plant_py.constraint(next(odei))), H_py = i-1; fprintf('state constraints violated...\n'); break;  end")
     if matlab.eval("isfield(plant_py,'constraint') && plant_py.constraint(next(odei))"):
       matlab.eval("H_py = i-1;")
       matlab.workspace.stConstrain = 1
@@ -95,8 +148,6 @@ def rollout(matlab):       # function [x y L latent] = rollout(start, policy, H,
       break
     else:
       matlab.workspace.stConstrain = 0
-      # print("All good, move on! \n")
-    # print(matlab.workspace.stConstrain)
     matlab.eval("clear stConstrain")
 
     
@@ -106,11 +157,22 @@ def rollout(matlab):       # function [x y L latent] = rollout(start, policy, H,
     matlab.eval("x_py(i+1,augi) = plant_py.augment(x_py(i+1,:));")
 
     # 5. Compute Cost ------------------------------------------------------------
-    # matlab.eval("if (nargout > 2), L_py(i) = cost_py.fcn(cost_py,state(dyno)',zeros(length(dyno)));  end")
-    matlab.eval("L_py(i) = cost_py.fcn(cost_py,state(dyno)',zeros(length(dyno)));")
+    # matlab.eval("L_py(i) = cost_py.fcn(cost_py,state(dyno)',zeros(length(dyno)));")
+    # print("matlab cost %f" %matlab.workspace.L_py[matlab.workspace.i-1])        #0.99
+
+      # OPENAI Environment reward:
+      # A reward of +1 is provided for every timestep that the pole remains upright. 
+      # The episode ends when the pole is more than 15 degrees from vertical, 
+      # or the cart moves more than 2.4 units from the center.               
+    print("\t openai env reward %f" %reward)                                             #1
+    matlab.workspace.cost_env = -reward;         
+    matlab.eval("L_py(i) = cost_env;")
+    print("\t supposedly modf cost %f" %matlab.workspace.L_py[matlab.workspace.i-1])        #-1
+
 
   matlab.eval("y_py = x_py(2:H_py+1,1:nX); x_py = [x_py(1:H_py,:) u(1:H_py,:)]; ")
   matlab.eval("latent_py(H_py+1, 1:nX) = state; latent_py = latent_py(1:H_py+1,:); L_py = L_py(1,1:H_py);")
+
 
 
   matlab.eval("clear start_py")       #CLEANING WORKAROUND 

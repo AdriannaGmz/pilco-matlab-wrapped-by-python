@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
 """ 
-Evaluates 
-* settings_cp_forPython.m
-* rollout.m
-* trainDynModel;")#   # train (GP) dynamics model
-* learnPolicy;")#     # learn policy
-* applyController;")# # apply controller to system
-
-displays the cart pole
-
+Steps:
+	* sett_cp.py 	  	  		# settings for the cart pole environment (task)
+	* roll_cp.py 	 			# executes a policy on the environment (task)
+	* trainDynModel.m   		# trains (GP) dynamics model
+	* learnPolicy.m     		# learns policy
+	* applyController_cp.py 	# applies controller to system
+	* displays the cart pole and cost graphs
 """ 
 
 from __future__ import division, print_function, absolute_import
 from __future__ import unicode_literals
+import numpy as np
+import math
 import matlab_wrapper
 import gym
 import sett_cp as scp  						#python version of settings_cp.m
@@ -22,12 +22,12 @@ import applyController_cp as appControl 	#python version of applyController.m
 
 def visualize_traj(matlab):
 	if matlab.workspace.plotting.verbosity>0 : 
-			if ~matlab.workspace.ishandle(1):
-				matlab.eval('figure(1)')
-			else:
-				matlab.eval("set(0,'CurrentFigure',1)")
-			matlab.eval('clf(1)')
-			matlab.eval('draw_rollout_cp')	
+		if ~matlab.workspace.ishandle(1):
+			matlab.eval('figure(1)')
+		else:
+			matlab.eval("set(0,'CurrentFigure',1)")
+		matlab.eval('clf(1)')
+		matlab.eval('draw_rollout_cp')	
 
 def main():
 	# 1. Initialization: cartpole environment in gym

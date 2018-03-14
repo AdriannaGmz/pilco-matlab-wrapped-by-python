@@ -1,5 +1,5 @@
-# python translation of  settings_cp.m
-# to override the matlab dynamic cart pole sovler and use the one from OpenAI gym
+# Python translation of settings_cp.m
+# Overrides the matlab cart pole dynamic solver and uses the model from OpenAI gym
 #################################################################
 ## settings_cp.m
 # *Summary:* Script set up the cart-pole scenario
@@ -75,9 +75,13 @@ def def_plant_st(matlab):
 	matlab.eval("plant.prop = @propagated;")
 
 # # 4. Policy structure
+# Original matlab policy considers 		continuous action 	u = [-10,10] (pulling force to one side or the other)
+# OpenAI policy only considers 			discrete actions 	u = (0,1)  (left and right)
+# So we will map from u= [-1,1] to u=(0,1) by rounding up
 def def_policy_st(matlab):
 	matlab.eval("policy.fcn = @(policy,m,s)conCat(@congp,@gSat,policy,m,s);")# controller representation
-	matlab.eval("policy.maxU = 10;")                                         # max. amplitude of control
+	# matlab.eval("policy.maxU = 10;")                                         # max. amplitude of control
+	matlab.eval("policy.maxU = 1;")                                         # max. amplitude of control
 	matlab.eval("[mm ss cc] = gTrig(mu0, S0, plant.angi);")                  # represent angles 
 	matlab.eval("mm = [mu0; mm]; cc = S0*cc; ss = [S0 cc; cc' ss];")         # in complex plane          
 	matlab.eval("policy.p.inputs = gaussian(mm(poli), ss(poli,poli), nc)';") # init. location of basis functions
@@ -85,6 +89,8 @@ def def_policy_st(matlab):
 	matlab.eval("policy.p.hyp = log([1 1 1 0.7 0.7 1 0.01])';")              # initialize policy hyper-parameters
 
 # # 5. Set up the cost structure
+# Original matlab cp cost considers		unnormalized Gaussian substracted from 1 with spread sigma_c
+# OpenAI policy considers rewards instead. So, we create a cost function inverse to reward
 def def_cost_st(matlab):
 	matlab.eval("cost.fcn = @loss_cp;")                       # cost function
 	matlab.eval("cost.gamma = 1;")                            # discount factor
