@@ -77,7 +77,8 @@ def def_plant_st(matlab):
 # # 4. Policy structure
 def def_policy_st(matlab):
 	matlab.eval("policy.fcn = @(policy,m,s)conCat(@congp,@gSat,policy,m,s);")# controller representation
-	matlab.eval("policy.maxU = 10;")                                         # max. amplitude of control
+	# matlab.eval("policy.maxU = 10;")                                         # max. amplitude of control
+	matlab.eval("policy.maxU = -3;")                                         # max. amplitude of control
 	matlab.eval("[mm ss cc] = gTrig(mu0, S0, plant.angi);")                  # represent angles 
 	matlab.eval("mm = [mu0; mm]; cc = S0*cc; ss = [S0 cc; cc' ss];")         # in complex plane          
 	matlab.eval("policy.p.inputs = gaussian(mm(poli), ss(poli,poli), nc)';") # init. location of basis functions

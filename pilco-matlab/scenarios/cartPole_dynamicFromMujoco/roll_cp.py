@@ -44,8 +44,18 @@
 # # Compute cost (optional)
 # # Repeat until end of horizon
 
+def fit_stX_for_matlab(matlab,state): #x          matrix of observed states                           [H   x nX+nU]
+  # Mujoco vector state is:     x, x_dot, theta,  theta_dot         % is an array
+  # Matlab vector state needs:  x, x_dot, dtheta, theta,  sin(theta), cos(theta)
+  #  1  x          cart position
+  #  2  v          cart velocity
+  #  3  dtheta     angular velocity
+  #  4  theta      angle of the pendulum
+  return np.array([state.qpos[0],state.qvel[0],state.qvel[1],state.qpos[1]])
 
-def rollout(matlab):       # function [x y L latent] = rollout(start, policy, H, plant, cost)
+
+
+def rollout(matlab,sim):       # function [x y L latent] = rollout(start, policy, H, plant, cost)
   # WORKAROUND:    USE NAMES  _py for the incoming / outgoing arguments
   # matlab.workspace.start_py 
   # matlab.workspace.policy_py 
